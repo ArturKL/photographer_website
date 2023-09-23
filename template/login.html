@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block primary_content %}
+<div class="container">
+    <h1 class="text-center">Вход</h1>
+    {% if message %}
+            <div class="alert alert-danger">{{ message }}</div>
+    {% endif %}
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        {{ form.csrf_token }}
+        <p>
+            {{ form.email.label(class="required") }}<br>
+            {{ form.email(class="form-control", type="email") }}<br>
+            {% for error in form.email.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password.label(class="required") }}<br>
+            {{ form.password(class="form-control", type="password") }}<br>
+            {% for error in form.password.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.remember_me }} {{ form.remember_me.label }}
+        </p>
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}
+            <a class="btn btn-outline-primary " href="/register">Регистрация</a>
+        </p>
+    </form>
+</div>
+{% endblock %}

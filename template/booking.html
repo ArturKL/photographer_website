@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% block primary_content %}
+<div class="container">
+    <br>
+    <div class="card-deck">
+        <div class="card">
+            <h5 class="card-header">Пакет "Минимальный"</h5>
+            <div class="card-body">
+                <p class="card-text">
+                    <p>-15 лучших фотографий в авторской обработке</p>
+                    <p>-Консультации по поводу образа</p>
+                    <p>-Помощь в позировании</p>
+                    <p>-Фотографии передаются через файлообменник</p>
+                </p>
+            </div>
+            <div class="card-footer">
+                <h4>7,1 тыс. руб.</h4>
+            </div>
+        </div>
+        <div class="card">
+            <h5 class="card-header">Пакет "Оптимальный"</h5>
+            <div class="card-body">
+                <p class="card-text">
+                    <p>-15 лучших фотографий в авторской обработке</p>
+                    <p>-Консультации по поводу образа</p>
+                    <p>-Помощь в позировании</p>
+                    <p>-Фотографии передаются через файлообменник</p>
+                    <p>-Фотокнига стандарт 20х20 на 10 разворотов</p>
+                </p>
+            </div>
+            <div class="card-footer">
+                <h4>12,6 тыс. руб.</h4>
+            </div>
+        </div>
+        <div class="card">
+            <h5 class="card-header">Пакет "Премиальный"</h5>
+            <div class="card-body">
+                <p class="card-text">
+                    <p>-15 лучших фотографий в авторской обработке</p>
+                    <p>-Консультации по поводу образа</p>
+                    <p>-Помощь в позировании</p>
+                    <p>-Фотокнига премиум с шелковыми страницами 25х25 на 10 разворотов</p>
+                    <p>-Фотографии передаются на физическом накопителе</p>
+                </p>
+            </div>
+            <div class="card-footer">
+                <h4>27 тыс. руб.</h4>
+            </div>
+        </div>
+    </div>
+    <br>
+    {% if current_user.is_authenticated and current_user.id == 1 %}
+        {% for book in books %}
+            <div class="card">
+                <h5 class="card-header">{{ book.name }} {{ book.surname }}</h5>
+                <ul class="list-group list-group-flash">
+                    <li class="list-group-item">{{ book.type }}</li>
+                    <li class="list-group-item">{{ book.tel }}</li>
+                </ul>
+                <div class="card-body">{{ book.content }}</div>
+                <div class="card-footer">
+                    {{ book.date }} 
+                    <a href="/booking/delete/{{ book.id }}" class="btn btn-danger">Удалить</a>
+                </div>
+            </div><br>
+        {% endfor %}
+    {% else %}
+        <h1>Заполните форму</h1>
+        {% if message %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endif %}
+        <form action="", method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.csrf_token }}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    {{ form.name.label(class="required") }}
+                    {{ form.name(class="form-control") }}
+                    {% for error in form.name.errors %}
+                        <p class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+                </div>
+                <div class="form-group col-md-6">
+                    {{ form.surname.label(class="required") }}
+                    {{ form.surname(class="form-control") }}
+                    {% for error in form.surname.errors %}
+                        <p class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.tel.label(class="required") }}
+                {{ form.tel(class="form-control", type="tel") }}
+                {% for error in form.name.errors %}
+                    <p class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.type.label(class="required") }}
+                {{ form.type(class="form-control", type="select") }}
+                {% for error in form.name.errors %}
+                    <p class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.date.label(class="required") }}
+                {{ form.date(class="form-control", type="date") }}
+                {% for error in form.date.errors %}
+                    <p class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.content.label }}
+                {{ form.content(class="form-control", type="textarea") }}
+                {% for error in form.content.errors %}
+                    <p class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+            </div>
+            <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        </form>
+    {% endif %}
+    
+</div><br>
+{% endblock primary_content %}

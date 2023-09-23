@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block primary_content %}
+<div class="container">
+    <h1>Загрузить альбом</h1>
+    {% if message %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endif %}
+    <form action="" method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        {{ form.csrf_token }}
+        <p>
+            {{ form.name.label(class="required") }}<br>
+            {{ form.name(class="form-control") }}<br>
+            {% for error in form.name.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.photos.label() }}<br>
+            {{ form.photos(class="form-control-file", type="file") }}<br>
+            {% for error in form.photos.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    </form>    
+</div>
+{% endblock primary_content %}
